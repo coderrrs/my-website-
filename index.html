@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Messenger Interface</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f1f1f1;
+}
+
+.login-container {
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+}
+
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.chat-box {
+    height: 400px;
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.message img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message-content {
+    background-color: #f1f0f0;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.input-box {
+    display: flex;
+    padding: 10px;
+}
+
+.input-box input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.input-box button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.input-box button:hover {
+    background-color: #45a049;
+}
+</style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+        <input type="password" id="password" placeholder="Enter Password" required>
+        <button type="button" onclick="check()">Login</button>
+    </form>
+</div>
+
+<div class="code" style="display: none;">
+    <div class="container">
+        <div class="chat-box">
+            <div class="message">
+                <img src="https://via.placeholder.com/50" alt="User Avatar">
+                <div class="message-content">Hello there!</div>
+            </div>
+            <!-- More messages here -->
+        </div>
+        <div class="input-box">
+            <input id="data" type="text" placeholder="Type your message...">
+            <button onclick="sendData()">Send</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function check() {
+    var password = document.getElementById("password").value;
+    // Replace "message" with the actual password for verification
+    if (password === "message") {
+        document.querySelector(".login-container").style.display = "none";
+        document.querySelector(".code").style.display = "block";
+    } else {
+        alert("Invalid password. Please try again.");
+    }
+}
+
+function sendData() {
+    var data = document.getElementById("data").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://192.168.18.14:5000/receive_data", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("Data sent successfully");
+        }
+    };
+    xhr.send(JSON.stringify({ data: data }));
+}
+</script>
+</body>
+</html>
